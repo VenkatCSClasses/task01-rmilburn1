@@ -28,6 +28,14 @@ public class BankAccount {
 
     /**
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
+     * @throws InsufficientFundsException if amount is larger than balance
+     * @throws InsufficientFundsException if amount is negative 
+     * 
+     * Equivalence Cases: 
+     *    amount is negative, 
+     *    amount is positive, 
+     *    amount is smaller than base, 
+     *    amount is larger than base
      */
     public void withdraw (double amount) throws InsufficientFundsException{
         if (amount <= balance){

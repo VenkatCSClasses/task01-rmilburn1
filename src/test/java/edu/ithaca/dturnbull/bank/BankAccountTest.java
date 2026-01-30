@@ -15,11 +15,40 @@ class BankAccountTest {
 
     @Test
     void withdrawTest() throws InsufficientFundsException{
+        /*
+         * Equivalence Cases: 
+         *  amount is negative, 
+         *  amount is positive, 
+         *  amount is less than balance, 
+         *  amount is greater than balance
+         */
+
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
         bankAccount.withdraw(100);
 
         assertEquals(100, bankAccount.getBalance(), 0.001);
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
+
+        // Equivalence case: amount is positive
+        bankAccount.withdraw(0.01); // Equivalence case: positive and less than balance
+        assertEquals(99.99, bankAccount.getBalance(), 0.001); // Border case: minimum valid withdrawal
+        bankAccount.withdraw(10); // Equivalence case: positive and less than balance
+        assertEquals(89.99, bankAccount.getBalance(), 0.001); // Middle case: valid withdrawal
+        bankAccount.withdraw(89.99); // Equivalence case: positive and equal to balance
+        assertEquals(0, bankAccount.getBalance(), 0.001); // Border case: maximum valid withdrawal
+
+
+        BankAccount bankAccountTwo = new BankAccount("a@b.com", 100);
+        // Equivalence case: amount is negative
+        assertThrows(InsufficientFundsException.class, () -> bankAccountTwo.withdraw(-0.01)); // Border case: minimum negative amount
+        assertThrows(InsufficientFundsException.class, () -> bankAccountTwo.withdraw(-50)); // Middle case: negative value < one cent
+        assertThrows(InsufficientFundsException.class, () -> bankAccountTwo.withdraw(-100.01)); // Border case: minimum negative value < (balance * -1)
+
+        // Equivalence case: amount is greater than balance
+        assertThrows(InsufficientFundsException.class, () -> bankAccountTwo.withdraw(100.01)); // Equivalence case: positive and greater than balance // Border case: minimum withdrawal value that is > balance
+        assertThrows(InsufficientFundsException.class, () -> bankAccountTwo.withdraw(200)); // Equivalence case: positive and greater than balance // Middle case: withdrawal value > balance
+        bankAccountTwo.withdraw(0.01); // Equivalence case: positive and less than balance
+        assertEquals(99.99, bankAccountTwo.getBalance(), 0.001); // Border case: minimum valid withdrawal
     }
 
     @Test
