@@ -25,21 +25,25 @@ class BankAccountTest {
     @Test
     void isEmailValidTest(){
         assertTrue(BankAccount.isEmailValid( "a@b.com")); //equivalence class - base case, valid format
+        assertTrue(BankAccount.isEmailValid( "aaa@b.com")); //equivalence class - "middle" case (neither min nor max prefix length), valid format
         assertFalse( BankAccount.isEmailValid("")); //equivalence class - null input (border case, minimum length of email)
 
         // CHECKING @ SYMBOL
-        assertFalse( BankAccount.isEmailValid("ab.com")); //equivalence class - missing @ symbol
-        assertFalse( BankAccount.isEmailValid("a@b@c.com")); //equivalence class - multiple @ symbols
+        assertFalse( BankAccount.isEmailValid("ab.com")); //equivalence class - missing @ symbol, border case (min number of @ symbols)
+        assertFalse( BankAccount.isEmailValid("a@b@c.com")); //equivalence class - multiple @ symbols, middle case (>1 @ symbol)
         assertFalse( BankAccount.isEmailValid("ab.com@")); //equivalence class - improper @ symbol position (border case, minimum length of domain)
 
         // CHECKING PREFIX
         assertFalse( BankAccount.isEmailValid("@b.com")); //equivalence class - missing prefix (border case, minimum length of prefix)
-        assertFalse( BankAccount.isEmailValid("a@bcom")); //equivalence class - missing .
-        assertFalse( BankAccount.isEmailValid("a@b..com")); //equivalence class - multiple . in domain
-        assertFalse( BankAccount.isEmailValid("a..b@c.com")); //equivalence class - multiple . in prefix
+        assertFalse( BankAccount.isEmailValid("a@bcom")); //equivalence class - missing . (border case: 1> .)
+        assertFalse( BankAccount.isEmailValid("a@b..com")); //equivalence class - multiple . in domain (border case: min number of invalid periods >1)
+        assertFalse( BankAccount.isEmailValid("a..b@c.com")); //equivalence class - multiple . in prefix (border case: >1 . consecutively)
+        assertFalse( BankAccount.isEmailValid("a...b@c.com")); //equivalence class - multiple . in prefix (middle case: >1 . consecutively)
         assertFalse(BankAccount.isEmailValid(".a@b.com")); //equivalence class - improper . position in prefix
 
         assertTrue( BankAccount.isEmailValid("A@b.com")); //equivalence class - base case, valid format
+        assertTrue( BankAccount.isEmailValid("AAA@b.com")); //equivalence class - middle case (prefix len >1), valid format
+        assertTrue( BankAccount.isEmailValid("AaA@b.com")); //equivalence class - middle case (prefix len >1 for mixed-case prefix), valid format        
 
         // CHECKING DOMAIN
         assertFalse( BankAccount.isEmailValid("a@.com")); //equivalence class - missing part of domain
@@ -51,15 +55,21 @@ class BankAccountTest {
         assertTrue( BankAccount.isEmailValid("a@b.org")); //equivalence class - different type of domain
 
         // CHECKING SPECIAL CHARACTERS
-        assertFalse( BankAccount.isEmailValid("a#@b.com")); //equivalence class - invalid character, # in prefix
-        assertFalse( BankAccount.isEmailValid("a@b!.com"));  //equivalence class - invalid character, ! in domain
+        assertFalse( BankAccount.isEmailValid("a#@b.com")); //equivalence class - invalid character, # in prefix, (border case: min number of invalid special chars)
+        assertFalse( BankAccount.isEmailValid("a##@b.com")); //equivalence class - invalid character, # in prefix, (middle case: number of invalid special chars >1)
+        assertFalse( BankAccount.isEmailValid("a@b!.com"));  //equivalence class - invalid character, ! in domain (border case: min number of invalid special chars)
+        assertFalse( BankAccount.isEmailValid("a@b!#.com")); //equivalence class - invalid character, # in prefix, (middle case: number of invalid special chars >1)
         assertFalse( BankAccount.isEmailValid("a-@b.com")); //equivalence class - invalid character, - at end of prefix
 
-        assertTrue( BankAccount.isEmailValid("a_b@c.com")); //equivalence class - valid character, _ in middle of prefix
-        assertTrue( BankAccount.isEmailValid("a.b@c.com")); //equivalence class - valid character, . in middle of prefix
-        assertTrue( BankAccount.isEmailValid("a-b@c.com")); //equivalence class - valid character, - in middle of prefix
+        assertTrue( BankAccount.isEmailValid("a_b@c.com")); //equivalence class - valid character, _ in middle of prefix, (border case: min length prefix with valid _)
+        assertTrue( BankAccount.isEmailValid("a.b@c.com")); //equivalence class - valid character, . in middle of prefix, (border case: min length prefix with valid .)
+        assertTrue( BankAccount.isEmailValid("a-b@c.com")); //equivalence class - valid character, - in middle of prefix, (border case: min length prefix with valid -)
+        assertTrue( BankAccount.isEmailValid("a_bc@d.com")); //equivalence class - valid character, _ in middle of prefix, (middle case: prefix len >3)
+        assertTrue( BankAccount.isEmailValid("a.bc@d.com")); //equivalence class - valid character, . in middle of prefix, (middle case: prefix len >3)
+        assertTrue( BankAccount.isEmailValid("a-bc@d.com")); //equivalence class - valid character, - in middle of prefix, (middle case: prefix len >3)
 
         // CHECK SPACES - equivalence class for all is improper spaces throughout prefixes and domains
+        // All are border cases: min number of spaces to render address invalid
         assertFalse(BankAccount.isEmailValid("a @b.com"));
         assertFalse(BankAccount.isEmailValid("a@ b.com"));
         assertFalse(BankAccount.isEmailValid("a@b. com"));
@@ -67,10 +77,24 @@ class BankAccountTest {
         assertFalse(BankAccount.isEmailValid("a@b.com "));
         assertFalse(BankAccount.isEmailValid(" a@b.com"));
         assertFalse(BankAccount.isEmailValid("a b@b.com"));
+        // All are middle cases: >1 space
+        assertFalse(BankAccount.isEmailValid("a  @b.com"));
+        assertFalse(BankAccount.isEmailValid("a@  b.com"));
+        assertFalse(BankAccount.isEmailValid("a@b.  com"));
+        assertFalse(BankAccount.isEmailValid("a@b.c  om"));
+        assertFalse(BankAccount.isEmailValid("a@b.com  "));
+        assertFalse(BankAccount.isEmailValid("  a@b.com"));
+        assertFalse(BankAccount.isEmailValid("a  b@b.com"));
+        assertFalse(BankAccount.isEmailValid("a @b.c om"));
+        assertFalse(BankAccount.isEmailValid("a@ b.com "));
 
-        // Missing equivalence classes:
-        //  If email is null rather than an empty string
-        //  Uppercase letters in domain
+        // Missing equivalence classes: (Added for Task-03)
+        assertFalse(BankAccount.isEmailValid(null)); //  If email is null rather than an empty string
+        assertTrue(BankAccount.isEmailValid("a@B.com")); //  Uppercase letters in domain, (border case: min domain len)
+        assertTrue(BankAccount.isEmailValid("a@BC.com")); //  Uppercase letters in domain, (middle case: domain len >1)  
+        assertFalse(BankAccount.isEmailValid("a@b.COM")); //  Uppercase letters in suffix, (middle case: suffix len >2)
+        assertFalse(BankAccount.isEmailValid("a@b.CO")); //  Uppercase letters in suffix, (border case: min suffix len)
+
 
     }
 
