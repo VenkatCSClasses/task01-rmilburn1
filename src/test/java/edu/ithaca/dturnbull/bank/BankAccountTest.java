@@ -8,9 +8,29 @@ class BankAccountTest {
 
     @Test
     void getBalanceTest() {
+        /* 
+        *  Equivalence cases:
+        *  Balance is zero
+        *  Balance is positive
+        *  Balance is negative (is this possible?)
+        *  Balance is double 
+        */
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        assertEquals(200, bankAccount.getBalance(), 0.001); // Balance is positive, is double
 
-        assertEquals(200, bankAccount.getBalance(), 0.001);
+        BankAccount bankAccountTwo = new BankAccount("a@b.com", 0);
+        assertEquals(0, bankAccountTwo.getBalance(), 0.001); // Balance is zero
+
+        BankAccount bankAccountThree = new BankAccount("a@b.com", -5);
+        assertEquals(-5, bankAccountThree.getBalance(), 0.001); // Balance is negative
+
+        BankAccount bankAccountFour = new BankAccount("a@b.com", 200.00);
+        assertEquals(200, bankAccountFour.getBalance(), 0.001); // Balance is double, truncated
+
+        BankAccount bankAccountFive = new BankAccount("a@b.com", 0.00);
+        assertEquals(0, bankAccountFive.getBalance(), 0.001); // Balance is zero, double, truncated
+
+
     }
 
     @Test

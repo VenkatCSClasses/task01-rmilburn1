@@ -18,6 +18,14 @@ public class BankAccount {
         }
     }
 
+    /**
+     * Equivalence cases:
+     *  Balance is zero
+     *  Balance is positive
+     *  Balance is negative (is this possible?)
+     *  Balance is double
+     * @return balance of BankAccount object
+    */
     public double getBalance(){
         return balance;
     }
