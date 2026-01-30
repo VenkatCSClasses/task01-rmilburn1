@@ -24,12 +24,12 @@ class BankAccountTest {
 
     @Test
     void isEmailValidTest(){
-        assertTrue(BankAccount.isEmailValid( "a@b.com"));   // valid email address
-        assertFalse( BankAccount.isEmailValid(""));         // empty string
+        assertTrue(BankAccount.isEmailValid( "a@b.com"));   // valid email address *
+        assertFalse( BankAccount.isEmailValid(""));         // empty string *
 
         // CHECKING @ SYMBOL
-        assertFalse( BankAccount.isEmailValid("ab.com"));    // missing @ symbol
-        assertFalse( BankAccount.isEmailValid("a@b@c.com")); // multiple @ symbols
+        assertFalse( BankAccount.isEmailValid("ab.com"));    // missing @ symbol *
+        assertFalse( BankAccount.isEmailValid("a@b@c.com")); // multiple @ symbols *
         assertFalse( BankAccount.isEmailValid("ab.com@"));   // @ symbol at end
 
         // CHECKING PREFIX
