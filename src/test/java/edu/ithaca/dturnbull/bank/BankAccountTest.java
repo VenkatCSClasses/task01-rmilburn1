@@ -59,6 +59,15 @@ class BankAccountTest {
         assertTrue( BankAccount.isEmailValid("a.b@c.com"));    // valid period in prefix
         assertTrue( BankAccount.isEmailValid("a-b@c.com"));    // valid dash in prefix
 
+        // CHECK SPACES
+        assertFalse(BankAccount.isEmailValid("a @b.com"));
+        assertFalse(BankAccount.isEmailValid("a@ b.com"));
+        assertFalse(BankAccount.isEmailValid("a@b. com"));
+        assertFalse(BankAccount.isEmailValid("a@b.c om"));
+        assertFalse(BankAccount.isEmailValid("a@b.com "));
+        assertFalse(BankAccount.isEmailValid(" a@b.com"));
+        assertFalse(BankAccount.isEmailValid("a b@b.com"));
+
     }
 
     @Test
