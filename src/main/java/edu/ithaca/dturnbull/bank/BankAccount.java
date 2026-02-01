@@ -46,10 +46,9 @@ public class BankAccount {
      *    amount is larger than base
      */
     public void withdraw (double amount) throws InsufficientFundsException{
-        if (amount <= balance){
-            balance -= amount;
-        }
-        else {
+        if (amount > 0 && balance >= amount) {
+            balance = balance - amount;
+        } else {
             throw new InsufficientFundsException("Not enough money");
         }
     }
