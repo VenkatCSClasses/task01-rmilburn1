@@ -141,8 +141,8 @@ class BankAccountTest {
         assertFalse(BankAccount.isEmailValid(null)); //  If email is null rather than an empty string
         assertTrue(BankAccount.isEmailValid("a@B.com")); //  Uppercase letters in domain, (border case: min domain len)
         assertTrue(BankAccount.isEmailValid("a@BC.com")); //  Uppercase letters in domain, (middle case: domain len >1)  
-        assertFalse(BankAccount.isEmailValid("a@b.COM")); //  Uppercase letters in suffix, (middle case: suffix len >2)
-        assertFalse(BankAccount.isEmailValid("a@b.CO")); //  Uppercase letters in suffix, (border case: min suffix len)
+        assertTrue(BankAccount.isEmailValid("a@b.COM")); //  Uppercase letters in suffix, (middle case: suffix len >2)
+        assertTrue(BankAccount.isEmailValid("a@b.CO")); //  Uppercase letters in suffix, (border case: min suffix len)
 
 
     }
