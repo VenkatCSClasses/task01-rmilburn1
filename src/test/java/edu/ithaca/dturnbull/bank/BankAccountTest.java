@@ -157,4 +157,31 @@ class BankAccountTest {
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
     }
 
+    @Test
+    void isAmountValidTest() {
+        // Base case
+        assertTrue(BankAccount.isAmountValid(0.00));
+
+        // Valid cases
+        assertTrue(BankAccount.isAmountValid(1.00)); // Middle case
+        assertTrue(BankAccount.isAmountValid(10.00)); // Middle case
+        assertTrue(BankAccount.isAmountValid(0.01)); // Edge case (minimum valid amount)
+        assertTrue(BankAccount.isAmountValid(0.10)); // Middle case
+        assertTrue(BankAccount.isAmountValid(1)); // Middle case
+        assertTrue(BankAccount.isAmountValid(10)); // Middle case
+
+        // Amount is not negative
+        assertFalse(BankAccount.isAmountValid(-0.01)); // Edge case (minimum invalid amount)
+        assertFalse(BankAccount.isAmountValid(-1)); // Middle case (checking without decimals)
+        assertFalse(BankAccount.isAmountValid(-1.00)); // Middle case (checking with decimals)
+        
+        // Amount has no more than two decimal places
+        assertFalse(BankAccount.isAmountValid(0.000)); // Edge case (minimum invalid amount of decimal places)
+        assertFalse(BankAccount.isAmountValid(0.001)); // Edge case (minimum invalid amount)
+        assertFalse(BankAccount.isAmountValid(-0.000)); // Edge case (minimum invalid amount of decimal places, negative)
+        assertFalse(BankAccount.isAmountValid(-0.001)); // Edge case (minimum invalid amount, negative)
+        assertFalse(BankAccount.isAmountValid(1.000)); // Middle case
+        assertFalse(BankAccount.isAmountValid(1.00000)); // Middle case
+    }
+
 }

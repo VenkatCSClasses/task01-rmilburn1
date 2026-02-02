@@ -149,4 +149,12 @@ public class BankAccount {
 
         return true;
     }
+
+    /**
+     * @param amount double amount -- currency (ex. 2.50)
+     * @return true if amount is not negative and has no more than two decimal places, false otherwise
+     */
+    public static boolean isAmountValid(double amount) {
+        return false;
+    }
 }
