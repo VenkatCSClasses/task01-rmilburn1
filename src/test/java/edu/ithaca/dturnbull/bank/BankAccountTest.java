@@ -197,4 +197,13 @@ class BankAccountTest {
         assertTrue(BankAccount.isAmountValid(1.00000)); // Java will trim this down to 1.0
     }
 
+    @Test
+    void depositTest() {
+
+    }
+
+    @Test
+    void transferTest() {
+        
+    }
 }

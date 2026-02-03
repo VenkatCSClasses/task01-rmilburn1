@@ -173,4 +173,21 @@ public class BankAccount {
             return true;
         }
     }
+
+    /**
+     * @param amount must be a monetary value which is positive, non-zero, and has no more than two decimal places
+     * @throws IllegalArgumentException if amount is negative, zero, or has more than two decimal places
+     */
+    public void deposit (double amount) {
+        
+    }
+
+    /**
+     * @param amount must be a monetary value which is positive, non-zero, and has no more than two decimal places
+     * @param destination must be a valid BankAccount object
+     * @throws IllegalArgumentException if either parameter is invalid
+     */
+    public void transfer (double amount, BankAccount destination) {
+
+    }
 }
