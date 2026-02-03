@@ -69,6 +69,11 @@ class BankAccountTest {
         assertThrows(InsufficientFundsException.class, () -> bankAccountTwo.withdraw(200)); // Equivalence case: positive and greater than balance // Middle case: withdrawal value > balance
         bankAccountTwo.withdraw(0.01); // Equivalence case: positive and less than balance
         assertEquals(99.99, bankAccountTwo.getBalance(), 0.001); // Border case: minimum valid withdrawal
+
+        assertThrows(IllegalArgumentException.class, () -> bankAccountTwo.withdraw(-1)); // Negative value (middle case)
+        assertThrows(IllegalArgumentException.class, () -> bankAccountTwo.withdraw(-0.01)); // Negative value (edge case)
+        assertThrows(IllegalArgumentException.class, () -> bankAccountTwo.withdraw(1.111)); // Too many decimals (middle case)
+        assertThrows(IllegalArgumentException.class, () -> bankAccountTwo.withdraw(0.001)); // Too many decimals (edge case)
     }
 
     @Test
@@ -155,6 +160,13 @@ class BankAccountTest {
         assertEquals(200, bankAccount.getBalance(), 0.001);
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+
+        // Checking isAmountValid (false if negative or >2 decimals)
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com", -1)); // Negative value (middle case)
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com", -0.01)); // Negative value (edge case)
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com", 1.111)); // Too many decimals (middle case)
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com", 0.001)); // Too many decimals (edge case)
+
     }
 
     @Test
