@@ -155,6 +155,14 @@ public class BankAccount {
      * @return true if amount is not negative and has no more than two decimal places, false otherwise
      */
     public static boolean isAmountValid(double amount) {
-        return false;
+        String amountString = Double.toString(amount);
+        System.out.println(amountString + " " + amountString.length());
+        System.out.println(amountString.substring(amountString.indexOf('.')).length());
+        if (amount < 0.00 || amountString.substring(amountString.indexOf('.')).length() >3 || amountString.indexOf('.') == -1) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 }

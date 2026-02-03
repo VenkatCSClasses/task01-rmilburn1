@@ -176,12 +176,13 @@ class BankAccountTest {
         assertFalse(BankAccount.isAmountValid(-1.00)); // Middle case (checking with decimals)
         
         // Amount has no more than two decimal places
-        assertFalse(BankAccount.isAmountValid(0.000)); // Edge case (minimum invalid amount of decimal places)
+        assertTrue(BankAccount.isAmountValid(0.000)); // Java will trim this down to 0.0
         assertFalse(BankAccount.isAmountValid(0.001)); // Edge case (minimum invalid amount)
-        assertFalse(BankAccount.isAmountValid(-0.000)); // Edge case (minimum invalid amount of decimal places, negative)
+        assertTrue(BankAccount.isAmountValid(-0.000)); // Java will adjust this to 0.0 (no such thing as -0)
         assertFalse(BankAccount.isAmountValid(-0.001)); // Edge case (minimum invalid amount, negative)
-        assertFalse(BankAccount.isAmountValid(1.000)); // Middle case
-        assertFalse(BankAccount.isAmountValid(1.00000)); // Middle case
+        assertFalse(BankAccount.isAmountValid(1.0001)); // Middle case
+        assertTrue(BankAccount.isAmountValid(1.010)); // Middge case, Java will adjust to 1.01
+        assertTrue(BankAccount.isAmountValid(1.00000)); // Java will trim this down to 1.0
     }
 
 }
