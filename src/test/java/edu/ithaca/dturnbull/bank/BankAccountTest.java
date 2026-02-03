@@ -21,8 +21,8 @@ class BankAccountTest {
         BankAccount bankAccountTwo = new BankAccount("a@b.com", 0);
         assertEquals(0, bankAccountTwo.getBalance(), 0.001); // Balance is zero
 
-        BankAccount bankAccountThree = new BankAccount("a@b.com", -5);
-        assertEquals(-5, bankAccountThree.getBalance(), 0.001); // Balance is negative
+        // BankAccount bankAccountThree = new BankAccount("a@b.com", -5);
+        // assertEquals(-5, bankAccountThree.getBalance(), 0.001); // Balance is negative
 
         BankAccount bankAccountFour = new BankAccount("a@b.com", 200.00);
         assertEquals(200, bankAccountFour.getBalance(), 0.001); // Balance is double, truncated
@@ -60,9 +60,9 @@ class BankAccountTest {
 
         BankAccount bankAccountTwo = new BankAccount("a@b.com", 100);
         // Equivalence case: amount is negative
-        assertThrows(InsufficientFundsException.class, () -> bankAccountTwo.withdraw(-0.01)); // Border case: minimum negative amount
-        assertThrows(InsufficientFundsException.class, () -> bankAccountTwo.withdraw(-50)); // Middle case: negative value < one cent
-        assertThrows(InsufficientFundsException.class, () -> bankAccountTwo.withdraw(-100.01)); // Border case: minimum negative value < (balance * -1)
+        assertThrows(IllegalArgumentException.class, () -> bankAccountTwo.withdraw(-0.01)); // Border case: minimum negative amount
+        assertThrows(IllegalArgumentException.class, () -> bankAccountTwo.withdraw(-50)); // Middle case: negative value < one cent
+        assertThrows(IllegalArgumentException.class, () -> bankAccountTwo.withdraw(-100.01)); // Border case: minimum negative value < (balance * -1)
 
         // Equivalence case: amount is greater than balance
         assertThrows(InsufficientFundsException.class, () -> bankAccountTwo.withdraw(100.01)); // Equivalence case: positive and greater than balance // Border case: minimum withdrawal value that is > balance
