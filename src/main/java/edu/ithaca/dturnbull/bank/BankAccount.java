@@ -164,8 +164,6 @@ public class BankAccount {
      */
     public static boolean isAmountValid(double amount) {
         String amountString = Double.toString(amount);
-        System.out.println(amountString + " " + amountString.length());
-        System.out.println(amountString.substring(amountString.indexOf('.')).length());
         if (amount < 0.00 || amountString.substring(amountString.indexOf('.')).length() >3 || amountString.indexOf('.') == -1) {
             return false;
         }
@@ -178,16 +176,28 @@ public class BankAccount {
      * @param amount must be a monetary value which is positive, non-zero, and has no more than two decimal places
      * @throws IllegalArgumentException if amount is negative, zero, or has more than two decimal places
      */
-    public void deposit (double amount) {
-        
+    public void deposit (double amount) throws IllegalArgumentException {
+        if(isAmountValid(amount)) {
+            balance += amount;
+        }
+        else {
+            throw new IllegalArgumentException(amount + " is not a valid amount. Please try again.");
+        }
     }
 
     /**
      * @param amount must be a monetary value which is positive, non-zero, and has no more than two decimal places
      * @param destination must be a valid BankAccount object
+     * @throws InsufficientFundsException if amount is less than current balance
      * @throws IllegalArgumentException if either parameter is invalid
      */
-    public void transfer (double amount, BankAccount destination) {
-
+    public void transfer (double amount, BankAccount destination) throws InsufficientFundsException, IllegalAccessException {
+        if (isAmountValid(amount)) {
+            withdraw(amount);
+            destination.deposit(amount);
+        }
+        else {
+            throw new IllegalArgumentException(amount + " is not a valid amount. Please try again.");
+        }
     }
 }

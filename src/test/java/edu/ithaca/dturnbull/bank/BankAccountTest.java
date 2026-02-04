@@ -211,10 +211,10 @@ class BankAccountTest {
         assertTrue(bankAccount.getBalance() == 26.00); // Middle case, valid, decimal number deposit <1
 
         bankAccount.deposit(0.01);
-        assertTrue(bankAccount.getBalance() == 26.51); // Border case, valid, minimum decimal number deposit
+        assertTrue(bankAccount.getBalance() == 26.01); // Border case, valid, minimum decimal number deposit
 
         bankAccount.deposit(1);
-        assertTrue(bankAccount.getBalance() == 27.50); // Border case, valid, minimum whole number deposit
+        assertTrue(bankAccount.getBalance() == 27.01); // Border case, valid, minimum whole number deposit
 
         // Inavlid, negative
         assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-1)); // Border case, invalid, minimum negative whole number deposit
@@ -234,24 +234,24 @@ class BankAccountTest {
         BankAccount bankAccountTwo = new BankAccount("b@a.com", 10);
 
         bankAccount.transfer(10, bankAccountTwo);
-        assertTrue(bankAccount.getBalance() == 90); // Middle case, valid, whole number transfer
-        assertTrue(bankAccountTwo.getBalance() == 20);
+        assertEquals(bankAccount.getBalance(), 90, 0.001); // Middle case, valid, whole number transfer
+        assertEquals(bankAccountTwo.getBalance(), 20, 0.001);
 
         bankAccount.transfer(1.01, bankAccountTwo);
-        assertTrue(bankAccount.getBalance() == 88.99); // Middle case, valid, decimal number transfer
-        assertTrue(bankAccountTwo.getBalance() == 21.01);
+        assertEquals(bankAccount.getBalance(), 88.99, 0.001); // Middle case, valid, decimal number transfer
+        assertEquals(bankAccountTwo.getBalance(), 21.01, 0.001);
 
         bankAccount.transfer(0.5, bankAccountTwo);
-        assertTrue(bankAccount.getBalance() == 88.49); // Middle case, valid, decimal number transfer <1
-        assertTrue(bankAccountTwo.getBalance() == 21.51);
+        assertEquals(bankAccount.getBalance(), 88.49, 0.001); // Middle case, valid, decimal number transfer <1
+        assertEquals(bankAccountTwo.getBalance(), 21.51, 0.001);
 
         bankAccount.transfer(0.01, bankAccountTwo);
-        assertTrue(bankAccount.getBalance() == 88.48); // Border case, valid, minimum decimal number transfer
-        assertTrue(bankAccountTwo.getBalance() == 21.52);
+        assertEquals(bankAccount.getBalance(), 88.48, 0.001); // Border case, valid, minimum decimal number transfer
+        assertEquals(bankAccountTwo.getBalance(), 21.52, 0.001);
 
         bankAccount.transfer(1, bankAccountTwo);
-        assertTrue(bankAccount.getBalance() == 87.48); // Border case, valid, minimum whole number transfer
-        assertTrue(bankAccountTwo.getBalance() == 22.52);
+        assertEquals(bankAccount.getBalance(), 87.48, 0.001); // Border case, valid, minimum whole number transfer
+        assertEquals(bankAccountTwo.getBalance(), 22.52, 0.001);
 
         // Inavlid, negative
         assertThrows(IllegalArgumentException.class, () -> bankAccount.transfer(-1, bankAccountTwo)); // Border case, invalid, minimum negative whole number deposit
